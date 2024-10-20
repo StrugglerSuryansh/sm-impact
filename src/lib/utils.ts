@@ -32,3 +32,8 @@ export function slugify(input: string): string {
     .replace(/ /g, "-")
     .replace(/[^a-z0-9-]/g, "");
 }
+
+export function isVerifiedEmail(email: string): boolean {
+  const verifiedEmails = ["dev"];
+  return verifiedEmails.includes(email);
+}

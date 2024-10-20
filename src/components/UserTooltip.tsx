@@ -14,6 +14,8 @@ import {
   TooltipTrigger,
 } from "./ui/tooltip";
 import UserAvatar from "./UserAvatar";
+import Image from "next/image";
+import { isVerifiedEmail } from "@/lib/utils";
 
 interface UserTooltipProps extends PropsWithChildren {
   user: UserData;
@@ -29,7 +31,10 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
     ),
   };
 
+  const verifiedUser = isVerifiedEmail(user.username);
+
   return (
+
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
@@ -45,8 +50,10 @@ export default function UserTooltip({ children, user }: UserTooltipProps) {
             </div>
             <div>
               <Link href={`/users/${user.username}`}>
-                <div className="text-lg font-semibold hover:underline">
+                <div className="text-lg font-semibold hover:underline flex gap-1">
                   {user.displayName}
+                  { verifiedUser == true? <Image src="/gold.svg" className="" alt="verfied" width={15} height={15}></Image> : <span className="w-8 h-8"></span>}
+
                 </div>
                 <div className="text-muted-foreground">@{user.username}</div>
               </Link>

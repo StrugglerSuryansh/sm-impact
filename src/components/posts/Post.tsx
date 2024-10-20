@@ -15,6 +15,7 @@ import UserTooltip from "../UserTooltip";
 import BookmarkButton from "./BookmarkButton";
 import LikeButton from "./LikeButton";
 import PostMoreButton from "./PostMoreButton";
+import {isVerifiedEmail} from "@/lib/utils";
 
 interface PostProps {
   post: PostData;
@@ -24,6 +25,8 @@ export default function Post({ post }: PostProps) {
   const { user } = useSession();
 
   const [showComments, setShowComments] = useState(false);
+
+  const verifiedUser = isVerifiedEmail(post.user.username);
 
   return (
     <article className="group/post space-y-3 rounded-2xl bg-card p-5 shadow-sm">
@@ -40,7 +43,13 @@ export default function Post({ post }: PostProps) {
                 href={`/users/${post.user.username}`}
                 className="block font-medium hover:underline"
               >
-                {post.user.displayName}
+                <div className=" flex gap-1 items-center justify-center">
+                  {post.user.displayName}
+                  { verifiedUser == true? <Image src="/gold.svg" className="" alt="verfied" width={15} height={15}></Image> : <span className="w-8 h-8"></span>}
+
+                </div>
+            
+
               </Link>
             </UserTooltip>
             <Link

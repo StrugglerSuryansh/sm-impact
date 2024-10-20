@@ -13,6 +13,8 @@ import { notFound } from "next/navigation";
 import { cache } from "react";
 import EditProfileButton from "./EditProfileButton";
 import UserPosts from "./UserPosts";
+import Image from "next/image";
+import { isVerifiedEmail } from "@/lib/utils";
 
 interface PageProps {
   params: { username: string };
@@ -90,6 +92,8 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
     ),
   };
 
+  const verifiedUser = isVerifiedEmail(user.username);
+
   return (
     <div className="h-fit w-full space-y-5 rounded-2xl bg-card p-5 shadow-sm">
       <UserAvatar
@@ -100,7 +104,10 @@ async function UserProfile({ user, loggedInUserId }: UserProfileProps) {
       <div className="flex flex-wrap gap-3 sm:flex-nowrap">
         <div className="me-auto space-y-3">
           <div>
-            <h1 className="text-3xl font-bold">{user.displayName}</h1>
+            <div className="flex gap-2 items-center justify-center">
+            <h1 className="text-3xl font-bold justify-start">{user.displayName}</h1>
+            { verifiedUser == true? <Image src="/gold.svg" className="mt-2" alt="verfied" width={20} height={20}></Image> : <span className="w-8 h-8"></span>}
+            </div>
             <div className="text-muted-foreground">@{user.username}</div>
           </div>
           <div>Member since {formatDate(user.createdAt, "MMM d, yyyy")}</div>
